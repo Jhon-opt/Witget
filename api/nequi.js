@@ -25,13 +25,24 @@ export default async function handler(req, res) {
         estado = "⚪ Estado desconocido";
     }
 
+    // 🔥 FORMATEO DE FECHA (a hora Colombia)
+    const fecha = new Date(data.page.updated_at);
+
+    const actualizado = fecha.toLocaleString("es-CO", {
+      timeZone: "America/Bogota",
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
     res.setHeader("Cache-Control", "s-maxage=300");
 
     res.status(200).json({
       estado,
       indicador: indicator,
       descripcion,
-      actualizado: data.page.updated_at
+      actualizado
     });
 
   } catch (error) {
